@@ -10,6 +10,15 @@ spec:
   sourceRef:
     kind: GitRepository
     name: config-connector
-  path: ./operator/config/default
+  path: ./install-bundles/install-bundle-autopilot-workload-identity
   prune: true
   wait: true
+  patches:
+    # https://stackoverflow.com/a/75246550
+    - target:
+        kind: ServiceAccount
+        name: cnrm-controller-manager
+        namespace: cnrm-system
+      patch: |
+        - op: remove
+          path: /metadata/annotations/iam.gke.io~1gcp-service-account
