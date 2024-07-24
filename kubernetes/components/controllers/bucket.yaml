@@ -1,0 +1,17 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: Bucket
+metadata:
+  name: config-connector
+  namespace: flux-system
+spec:
+  interval: 2m0s
+  provider: gcp
+  bucketName: configconnector-operator
+  endpoint: storage.googleapis.com
+  ignore: |
+    # exclude all
+    /*
+    # include specific version
+    !/1.120.1/release-bundle.tar.gz
+  timeout: 30s
