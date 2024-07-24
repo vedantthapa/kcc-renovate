@@ -12,7 +12,8 @@ spec:
   selector:
     matchLabels:
       app: nginx-2
-  strategy: {}
+  strategy:
+    type: Recreate
   template:
     metadata:
       creationTimestamp: null
