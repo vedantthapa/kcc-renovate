@@ -7,14 +7,15 @@ metadata:
     app: nginx-2
   name: nginx-2
   namespace: default
+  annotation:
+    kustomize.toolkit.fluxcd.io/force: enabled
 spec:
   replicas: 3
   selector:
     matchLabels:
       app: nginx-2
   strategy:
-    rollingUpdate: null
-    type: Recreate
+    type: RollingUpdate
   template:
     metadata:
       creationTimestamp: null
