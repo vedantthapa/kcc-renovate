@@ -9,3 +9,28 @@ spec:
   ref:
     tag: v1.120.1
   url: https://github.com/GoogleCloudPlatform/k8s-config-connector.git
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: config-connector-operator
+  namespace: flux-system
+spec:
+  interval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: config-connector
+  path: ./install-bundles/install-bundle-autopilot-workload-identity
+  prune: true
+  wait: true
+  patches:
+    # https://stackoverflow.com/a/75246550
+    - target:
+        kind: ServiceAccount
+        name: cnrm-controller-manager
+        namespace: cnrm-system
+      patch: |
+        - op: remove
+          path: /metadata/annotations/iam.gke.io~1gcp-service-account
+
